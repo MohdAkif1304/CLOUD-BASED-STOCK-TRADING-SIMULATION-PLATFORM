@@ -1,0 +1,1 @@
+const r=require('express').Router(),{getPortfolio,getTradeHistory}=require('../controllers/portfolioController'),{protect}=require('../middleware/auth');r.use(protect);r.get('/',getPortfolio);r.get('/trades',getTradeHistory);module.exports=r;

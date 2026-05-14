@@ -1,0 +1,8 @@
+const { getPrice, getPriceCache, getHistoricalData, searchSymbols, fetchQuotes } = require('../services/priceService');
+const DEFAULT = ['AAPL','TSLA','GOOGL','MSFT','AMZN','META','NVDA','NFLX','AMD','INTC'];
+const getLivePrices     = async (req, res, next) => { try { const p = getPriceCache(); res.json({ success: true, prices: p, count: Object.keys(p).length }); } catch (e) { next(e); } };
+const getQuote          = async (req, res, next) => { try { const q = await getPrice(req.params.symbol.toUpperCase()); if (!q) return res.status(404).json({ success: false, message: 'Not found' }); res.json({ success: true, quote: q }); } catch (e) { next(e); } };
+const getHistory        = async (req, res, next) => { try { const s = req.params.symbol.toUpperCase(); const r = parseInt(req.query.range)||30; const i = req.query.interval||'1d'; const d = await getHistoricalData(s,r,i); res.json({ success: true, symbol: s, data: d }); } catch (e) { next(e); } };
+const searchStocks      = async (req, res, next) => { try { const r = await searchSymbols(req.query.q||''); res.json({ success: true, results: r }); } catch (e) { next(e); } };
+const getMarketOverview = async (req, res, next) => { try { const c = getPriceCache(); const m = DEFAULT.filter(s=>c[s]).map(s=>c[s]); if (m.length===0) { const f = await fetchQuotes(DEFAULT); return res.json({ success: true, market: Object.values(f) }); } res.json({ success: true, market: m }); } catch (e) { next(e); } };
+module.exports = { getLivePrices, getQuote, getHistory, searchStocks, getMarketOverview };

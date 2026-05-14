@@ -1,0 +1,1 @@
+const r=require('express').Router(),{getWatchlist,addToWatchlist,removeFromWatchlist}=require('../controllers/watchlistController'),{protect}=require('../middleware/auth');r.use(protect);r.route('/').get(getWatchlist).post(addToWatchlist);r.delete('/:symbol',removeFromWatchlist);module.exports=r;

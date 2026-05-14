@@ -1,0 +1,1 @@
+const r=require('express').Router(),{getLivePrices,getQuote,getHistory,searchStocks,getMarketOverview}=require('../controllers/stockController'),{protect}=require('../middleware/auth');r.use(protect);r.get('/prices',getLivePrices);r.get('/market',getMarketOverview);r.get('/search',searchStocks);r.get('/history/:symbol',getHistory);r.get('/:symbol',getQuote);module.exports=r;

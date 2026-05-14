@@ -1,0 +1,1 @@
+const r=require('express').Router(),{getWallet,addFunds,getTransactions}=require('../controllers/walletController'),{protect}=require('../middleware/auth');r.use(protect);r.get('/',getWallet);r.post('/add',addFunds);r.get('/transactions',getTransactions);module.exports=r;

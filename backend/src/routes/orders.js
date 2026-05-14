@@ -1,0 +1,1 @@
+const r=require('express').Router(),{placeOrder,getMyOrders,getAllOrders,getOrderById,cancelOrder}=require('../controllers/orderController'),{protect}=require('../middleware/auth');r.use(protect);r.route('/').post(placeOrder).get(getMyOrders);r.get('/all',getAllOrders);r.get('/:id',getOrderById);r.put('/:id/cancel',cancelOrder);module.exports=r;
